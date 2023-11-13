@@ -4,7 +4,8 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "postinstall": "husky install"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
