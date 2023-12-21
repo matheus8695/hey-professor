@@ -46,18 +46,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password'          => 'hashed',
     ];
 
-    /**
-     * @return HasMany
-     */
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
     }
 
-    /**
-     * @param Question $question
-     * @return void
-     */
     public function like(Question $question): void
     {
         $this->votes()->create([
