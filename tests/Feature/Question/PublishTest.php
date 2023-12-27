@@ -10,7 +10,7 @@ it('should be able to publish a question', function () {
 
     actingAs($user);
 
-    put(route('question.publish'), $question)
+    put(route('question.publish', $question))
         ->assertRedirect();
 
     $question->refresh();
