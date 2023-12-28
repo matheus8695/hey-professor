@@ -55,6 +55,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * @return HasMany
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Question::class, 'created_by');
+    }
+
+    /**
      * @param Question $question
      * @return void
      */
