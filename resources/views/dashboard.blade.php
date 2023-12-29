@@ -7,7 +7,7 @@
 
     <x-container>
         <div class="dark:text-gray-400 space-y-4">
-            @foreach($questions as $item)
+            @foreach($questions->where('draft', false) as $item)
                 <x-question :question="$item"/>
             @endforeach
         </div>
