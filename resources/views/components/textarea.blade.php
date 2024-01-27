@@ -1,6 +1,7 @@
 @props([
     'label',
-    'name'
+    'name',
+    'value'=> null
 ])
 
 <div class="mb-4">
@@ -15,7 +16,7 @@
             focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white
             dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Leave a comment..."
-    >{{ old($name) }}</textarea>
+    >{{ old($name, $value) }}</textarea>
 
     @error($name)
         <span class="text-red-400">{{ $message }}</span>
