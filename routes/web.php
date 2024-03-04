@@ -11,9 +11,9 @@ Route::get('/', function () {
     }
 });
 
-Route::get('/dashboard', DashboardController::class)->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
-Route::middleware('auth')->group(function () {
     #region Question Routes
     Route::get('/question', [QuestionController::class, 'index'])->name('question.index');
     Route::post("/question/store", [QuestionController::class, "store"])->name("question.store");
