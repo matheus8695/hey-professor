@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -67,10 +68,24 @@ class QuestionController extends Controller
         return to_route('question.index');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
+    public function archive(Question $question): RedirectResponse
+    {
+        $this->authorize('archive', $question);
+        $question->delete();
+
+        return back();
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('destroy', $question);
-        $question->delete();
+        $question->forceDelete();
 
         return back();
     }
