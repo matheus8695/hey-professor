@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Closure;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -12,7 +13,8 @@ class QuestionController extends Controller
     public function index(): View
     {
         return view('question.index', [
-            'questions' => user()->questions,
+            'questions'         => user()->questions,
+            'archivedQuestions' => user()->questions()->onlyTrashed()->get(),
         ]);
     }
 
@@ -67,10 +69,32 @@ class QuestionController extends Controller
         return to_route('question.index');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
+    public function archive(Question $question): RedirectResponse
+    {
+        $this->authorize('archive', $question);
+        $question->delete();
+
+        return back();
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        $question = Question::withTrashed()->find($id);
+        $question->restore();
+
+        return back();
+    }
+
+    /**
+     * @throws AuthorizationException
+     */
     public function destroy(Question $question): RedirectResponse
     {
         $this->authorize('destroy', $question);
-        $question->delete();
+        $question->forceDelete();
 
         return back();
     }
